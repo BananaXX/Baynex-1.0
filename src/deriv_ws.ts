@@ -1,28 +1,31 @@
-import WebSocket from "ws";
-import { DERIV_API_TOKEN } from "../config";
+import WebSocket from 'ws';
+import dotenv from 'dotenv';
+dotenv.config();
 
-let ws: WebSocket;
+const app_id = process.env.DERIV_APP_ID!;
+const token = process.env.DERIV_TOKEN!;
+const ws = new WebSocket(`wss://ws.binaryws.com/websockets/v3?app_id=${app_id}`);
 
-export function connectToDeriv() {
-  ws = new WebSocket("wss://ws.binaryws.com/websockets/v3?app_id=71673");
+export const startDerivStream = () => {
+  ws.onopen = () => {
+    console.log('Connected to Deriv WebSocket ✅');
+    ws.send(JSON.stringify({ authorize: token }));
+  };
 
-  ws.on("open", () => {
-    ws.send(JSON.stringify({ authorize: DERIV_API_TOKEN }));
-    console.log("🔌 Connected to Deriv WebSocket");
-  });
+  ws.onmessage = (event) => {
+    const data = JSON.parse(event.data.toString());
+    console.log('📩 Deriv Data:', data);
 
-  ws.on("message", (data) => {
-    const msg = JSON.parse(data.toString());
-    console.log("📩", msg);
-  });
-}
+    if (data.msg_type === 'authorize') {
+      ws.send(JSON.stringify({ balance: 1, subscribe: 1 }));
+    }
 
-export async function getBalance(): Promise<number> {
-  return new Promise((resolve) => {
-    ws.send(JSON.stringify({ balance: 1 }));
-    ws.once("message", (data) => {
-      const json = JSON.parse(data.toString());
-      resolve(json.balance.balance);
-    });
-  });
-}
+    if (data.msg_type === 'balance') {
+      console.log(`💰 Balance: ${data.balance.balance}`);
+    }
+  };
+
+  ws.onerror = (err) => {
+    console.error('❌ Deriv WebSocket Error:', err);
+  };
+};
