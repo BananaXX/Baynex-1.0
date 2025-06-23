@@ -1,19 +1,12 @@
-import TelegramBot from "node-telegram-bot-api";
-import dotenv from "dotenv";
+import TelegramBot from 'node-telegram-bot-api';
 
-dotenv.config();
+const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN as string, { polling: true });
 
-const token = process.env.TELEGRAM_TOKEN!;
-const chatId = process.env.TELEGRAM_CHAT_ID!;
+bot.onText(/\/start/, (msg) => {
+  bot.sendMessage(msg.chat.id, "🤖 BAYNEX bot activated. Use /balance to check balance.");
+});
 
-const bot = new TelegramBot(token, { polling: true });
-
-export function setupTelegramBot() {
-  bot.onText(/\/start/, (msg) => {
-    bot.sendMessage(msg.chat.id, "🤖 BAYNEX is online and ready.");
-  });
-
-  bot.onText(/\/balance/, async (msg) => {
-    bot.sendMessage(msg.chat.id, "💰 Your balance will be shown here.");
-  });
-}
+bot.onText(/\/balance/, async (msg) => {
+  bot.sendMessage(msg.chat.id, "📊 Fetching balance...");
+  // Logic to fetch balance from Deriv will go here
+});
