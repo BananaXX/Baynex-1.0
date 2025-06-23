@@ -1,8 +1,12 @@
-importimport TelegramBot from "node-telegram-bot-api";
-import { getBalance } from "./deriv_ws";
-import { TELEGRAM_TOKEN, TELEGRAM_CHAT_ID } from "../config";
+import TelegramBot from "node-telegram-bot-api";
+import dotenv from "dotenv";
 
-const bot = new TelegramBot(TELEGRAM_TOKEN, { polling: true });
+dotenv.config();
+
+const token = process.env.TELEGRAM_TOKEN!;
+const chatId = process.env.TELEGRAM_CHAT_ID!;
+
+const bot = new TelegramBot(token, { polling: true });
 
 export function setupTelegramBot() {
   bot.onText(/\/start/, (msg) => {
@@ -10,7 +14,6 @@ export function setupTelegramBot() {
   });
 
   bot.onText(/\/balance/, async (msg) => {
-    const balance = await getBalance();
-    bot.sendMessage(msg.chat.id, `💰 Balance: ${balance}`);
+    bot.sendMessage(msg.chat.id, "💰 Your balance will be shown here.");
   });
 }
