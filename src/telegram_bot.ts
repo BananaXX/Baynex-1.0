@@ -1,8 +1,11 @@
-import TelegramBot from 'node-telegram-bot-api';
+import WebSocket from 'ws';
 
-export function setupTelegramBot() {
-  const bot = new TelegramBot(process.env.TELEGRAM_TOKEN || '', { polling: true });
-  bot.on('message', (msg) => {
-    bot.sendMessage(msg.chat.id, "Baynex bot is active.");
-  });
-}
+const ws = new WebSocket('wss://ws.derivws.com/websockets/v3');
+
+ws.on('open', () => {
+  console.log('Connected to Deriv WebSocket');
+});
+
+ws.on('message', (data: WebSocket.RawData) => {
+  console.log('Received:', data.toString());
+});
