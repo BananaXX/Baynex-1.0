@@ -1,16 +1,18 @@
 {
   "name": "baynex-bot",
   "version": "1.0.0",
-  "main": "src/index.ts",
-  "type": "module",
+  "description": "Baynex WebBot for Telegram + Deriv",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "start": "node dist/index.js",
+    "build": "tsc"
   },
   "dependencies": {
+    "axios": "^1.6.0",
+    "ws": "^8.13.0",
     "node-telegram-bot-api": "^0.61.0"
   },
   "devDependencies": {
-    "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.0.4"
   }
 }
