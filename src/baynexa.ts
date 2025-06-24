@@ -1,4 +1,7 @@
-export function initializeBaynexa() {
-  console.log("👩‍💼 Baynexa assistant initialized.");
-  // You can add more assistant-like alerts or logs here.
-}
+export default {
+  say: (msg: string) => {
+    console.log("Baynexa says:", msg);
+    // Future: connect to UI or notifications
+  },
+};
+
