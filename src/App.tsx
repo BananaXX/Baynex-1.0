@@ -1,15 +1,15 @@
-// src/App.tsx
-import React from 'react';
-import Dashboard from './Dashboard';
-import Login from './Login';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import Login from './Login';
+import Dashboard from './Dashboard';
 import './firebase';
 
 const App: React.FC = () => {
-  const [user, setUser] = React.useState<any>(null);
-  const [loading, setLoading] = React.useState(true);
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -21,9 +21,15 @@ const App: React.FC = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="App">
-      {user ? <Dashboard user={user} /> : <Login />}
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/"
+          element={user ? <Dashboard user={user} /> : <Navigate to="/login" />}
+        />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
