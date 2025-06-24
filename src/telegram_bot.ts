@@ -1,16 +1,24 @@
+// src/telegram_bot.ts
 import TelegramBot from "node-telegram-bot-api";
-import { connectWebSocket, getBalance } from "./websocket";
 import dotenv from "dotenv";
+import { connectWebSocket, getBalance } from "./websocket";
 dotenv.config();
 
-const bot = new TelegramBot(process.env.TELEGRAM_TOKEN!, { polling: true });
+const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN!;
+const CHAT_ID = process.env.CHAT_ID!;
+
+const bot = new TelegramBot(TELEGRAM_TOKEN, { polling: true });
 let ws = connectWebSocket();
 
-bot.onText(/\/balance/, () => {
-  getBalance();
-  bot.sendMessage(process.env.CHAT_ID!, "🤖 Fetching balance... check dashboard.");
+bot.onText(/\/start/, (msg) => {
+  bot.sendMessage(msg.chat.id, "🤖 BAYNEX is online! Use /balance to check.");
 });
 
-bot.onText(/\/start/, (msg) => {
-  bot.sendMessage(msg.chat.id, "BAYNEX Bot is live!");
+bot.onText(/\/balance/, (msg) => {
+  bot.sendMessage(msg.chat.id, "📡 Fetching balance...");
+  getBalance();
+});
+
+bot.on("polling_error", (error) => {
+  console.error("❌ Telegram Bot Error:", error.message);
 });
