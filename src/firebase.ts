@@ -1,16 +1,14 @@
-// firebase.ts
-
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCyeUG2rsh8dRjL5UfYbRK6Yr23dNieZfg",
-  authDomain: "baynex-c6cc1.firebaseapp.com",
-  projectId: "baynex-c6cc1",
-  storageBucket: "baynex-c6cc1.appspot.com",
-  messagingSenderId: "901162083553",
-  appId: "1:901162083553:web:b39ccbe59c491ce69803a0"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);￼Enter
+export const auth = getAuth(app);
