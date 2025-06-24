@@ -1,37 +1,45 @@
-
+// src/Login.tsx
 import React, { useState } from "react";
-import { auth } from "./firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
+    setLoading(true);
     try {
+      const auth = getAuth();
       await signInWithEmailAndPassword(auth, email, password);
-    } catch (e: any) {
-      alert("Login failed: " + e.message);
+    } catch (err: any) {
+      alert("❌ Login failed: " + err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center p-6 text-white">
-      <h1 className="text-2xl font-bold mb-4">Login to BAYNEX</h1>
+    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-6">
+      <h1 className="text-3xl font-bold mb-6">🔐 Login to BAYNEX</h1>
       <input
         type="email"
         placeholder="Email"
+        className="mb-2 p-2 rounded bg-gray-800 text-white w-64"
         onChange={(e) => setEmail(e.target.value)}
-        className="mb-2 p-2 rounded bg-gray-800 text-white"
       />
       <input
         type="password"
         placeholder="Password"
+        className="mb-4 p-2 rounded bg-gray-800 text-white w-64"
         onChange={(e) => setPassword(e.target.value)}
-        className="mb-4 p-2 rounded bg-gray-800 text-white"
       />
-      <button onClick={handleLogin} className="bg-orange-600 px-4 py-2 rounded">
-        Login
+      <button
+        onClick={handleLogin}
+        className="bg-orange-600 px-6 py-2 rounded text-white font-semibold"
+        disabled={loading}
+      >
+        {loading ? "Logging in..." : "Login"}
       </button>
     </div>
   );
