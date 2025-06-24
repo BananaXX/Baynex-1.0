@@ -1,17 +1,20 @@
-// src/Login.tsx
 import React, { useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  
+  const navigate = useNavigate(); // Set up the navigate function
 
   const handleLogin = async () => {
     setLoading(true);
     try {
       const auth = getAuth();
       await signInWithEmailAndPassword(auth, email, password);
+      navigate("/"); // After successful login, navigate to Dashboard
     } catch (err: any) {
       alert("❌ Login failed: " + err.message);
     } finally {
