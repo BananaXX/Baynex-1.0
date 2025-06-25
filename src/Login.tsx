@@ -1,22 +1,24 @@
 import React, { useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  
-  const navigate = useNavigate(); // Set up the navigate function
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     setLoading(true);
+    setError("");
     try {
       const auth = getAuth();
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/"); // After successful login, navigate to Dashboard
+      navigate("/");
     } catch (err: any) {
-      alert("❌ Login failed: " + err.message);
+      setError("❌ Login failed: " + err.message);
     } finally {
       setLoading(false);
     }
@@ -25,6 +27,9 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-6">
       <h1 className="text-3xl font-bold mb-6">🔐 Login to BAYNEX</h1>
+
+      {error && <p className="text-red-400 mb-2">{error}</p>}
+
       <input
         type="email"
         placeholder="Email"
