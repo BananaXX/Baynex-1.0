@@ -1,87 +1,51 @@
 import React from 'react';
+import Navbar from './Navbar';
+import ActivityFeed from './ActivityFeed';
+import ChartComponent from './ChartComponent';
 
-const Dashboard: React.FC<{ user: any }> = ({ user }) => {
+interface Props {
+  user: any;
+}
+
+const Dashboard: React.FC<Props> = ({ user }) => {
   return (
-    <div className="min-h-screen bg-secondary text-white font-inter p-4">
-      {/* Header */}
-      <header className="mb-6">
-        <h1 className="text-4xl font-bold text-primary">BAYNEX</h1>
-        <p className="text-sm mt-1">
-          God the creator of heaven and Earth is my provider. ISAIAH:35;1-10
-        </p>
-      </header>
+    <div className="bg-black text-white min-h-screen flex">
+      <Navbar />
+      <main className="flex-1 p-6 overflow-auto">
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold">👋 Welcome to <span className="text-red-500">BAYNEX</span></h1>
+          <p className="mt-2 text-sm text-gray-300">
+            God the creator of heaven and Earth is my provider. ISAIAH:35;1-10
+          </p>
+        </div>
 
-      {/* Welcome & User Info */}
-      <section className="mb-6">
-        <h2 className="text-2xl font-semibold">👋 Welcome to BAYNEX</h2>
-        <p className="mt-1">Hello, <span className="text-primary">{user.email}</span></p>
-      </section>
-
-      {/* Balance and P&L */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div className="bg-black bg-opacity-20 p-4 rounded-xl shadow-md">
-          <h3 className="text-lg text-gray-300">Total Balance</h3>
+        <div className="mb-6 bg-gray-800 p-4 rounded-2xl shadow">
+          <p>Hello, <span className="font-semibold text-blue-300">{user.email}</span></p>
+          <p className="mt-2 text-2xl">Total Balance</p>
           <p className="text-3xl font-bold text-green-400">$21,532</p>
+          <p className="mt-1 text-md text-gray-400">Profit & Loss</p>
+          <p className="text-xl font-semibold text-emerald-500">+$578</p>
         </div>
-        <div className="bg-black bg-opacity-20 p-4 rounded-xl shadow-md">
-          <h3 className="text-lg text-gray-300">Profit & Loss</h3>
-          <p className="text-3xl font-bold text-blue-400">+$578</p>
+
+        <div className="mb-6 bg-gray-800 p-4 rounded-2xl shadow">
+          <h2 className="text-lg font-semibold mb-2">Baynexa AI Assistant</h2>
+          <div className="flex items-center space-x-3">
+            <span className="text-2xl">🤖</span>
+            <input
+              type="text"
+              placeholder="How can I assist you today?"
+              className="w-full p-2 bg-gray-900 text-white border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+            />
+          </div>
         </div>
-      </section>
 
-      {/* AI Assistant */}
-      <section className="mb-6">
-        <h3 className="text-xl font-medium mb-2">Baynexa AI Assistant 🤖</h3>
-        <input
-          className="w-full p-2 rounded-lg border border-gray-700 bg-black text-white focus:outline-none"
-          placeholder="How can I assist you today?"
-        />
-      </section>
+        <ChartComponent />
+        <ActivityFeed />
 
-      {/* Performance */}
-      <section className="mb-6">
-        <h3 className="text-xl font-semibold mb-2">📊 Performance</h3>
-        {/* Placeholder chart or data */}
-        <div className="p-4 bg-black bg-opacity-10 rounded-lg">[Performance Chart Placeholder]</div>
-      </section>
-
-      {/* Recent Activity */}
-      <section className="mb-6">
-        <h3 className="text-xl font-semibold mb-2">📝 Recent Activity</h3>
-        <div className="overflow-x-auto text-sm">
-          <table className="w-full table-auto border-collapse border border-gray-700">
-            <thead className="bg-primary text-black">
-              <tr>
-                <th className="border border-gray-700 p-2">TYPE</th>
-                <th className="border border-gray-700 p-2">ASSET</th>
-                <th className="border border-gray-700 p-2">STATUS</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="border border-gray-700 p-2">BUY</td>
-                <td className="border border-gray-700 p-2">Bitcoin</td>
-                <td className="border border-gray-700 p-2">Completed</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-700 p-2">SELL</td>
-                <td className="border border-gray-700 p-2">Ethereum</td>
-                <td className="border border-gray-700 p-2">Completed</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-700 p-2">SELL</td>
-                <td className="border border-gray-700 p-2">Tesla</td>
-                <td className="border border-gray-700 p-2">Cancelled</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="text-xs text-gray-500 mt-8 text-center">
-        Built with guidance from AI using ChatGPT
-      </footer>
+        <footer className="mt-10 text-xs text-gray-500 text-center">
+          Built with guidance from AI using ChatGPT
+        </footer>
+      </main>
     </div>
   );
 };
