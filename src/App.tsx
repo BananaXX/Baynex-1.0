@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import Login from './Login';
-import Dashboard from './Dashboard';
+import Dashboard from './components/Dashboard';
 import './firebase';
 
 const App: React.FC = () => {
